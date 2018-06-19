@@ -14,7 +14,10 @@ to check the possible ways Iran can advance from its group consisting of [Iran,S
       How,                                      % outputs the outcomes that will advance your team
       Score).                                   % the group score in the end
 
-% breakdown of output -> spain wins morocco, spain wins iran, spain and portugal draw, iran wins morocco, morocco wins portugal, iran wins portugal (yeah right...). iran can advance to next round with 6 score and as second team
+% breakdown of output -> spain wins morocco, spain wins iran, spain and portugal draw, iran wins morocco,
+% morocco wins portugal, iran wins portugal (yeah right...). 
+% iran can advance to next round with 6 score and as second team
+
 How = [win(spain, morocco), win(spain, iran), draw(spain, portugal), win(iran, morocco), win(morocco, portugal), win(iran, portugal)],
 Score = scores{iran:6, morocco:3, portugal:1, spain:7} ;
 
