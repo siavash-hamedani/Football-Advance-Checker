@@ -1,8 +1,8 @@
 
 % if second and third team have same score count as possible advancing condition
-advanceEvenEqual(A,B1,[A-R1|RS]) :- not(B1 == R1) -> false.
+% advanceEvenEqual(A,B1,[A-R1|RS]) :- not(B1 == R1) -> false.
 
-advanceEvenEqual(A,B1,[_-R1|RS]) :- B1 == R1, advanceEvenEqual(A,B1,RS).
+advanceEvenEqual(A,B1,[_-B1|RS]) :- advanceEvenEqual(A,B1,RS).
 
 
 % top 2 teams of the group advance
@@ -10,9 +10,9 @@ advances(A,[A-_|_]).
 
 advances(A,[_,A-_|_]).
 
-advances(A,[_,B-B1,A-A1|_]) :- A1 == B1.
+% advances(A,[_,B-B1,A-B1|_]).
 
-advances(A,[_,B-B1,A-A1|R]) :- A1 == B1 -> advanceEvenEqual(A,B1,R).
+%advances(A,[_,B-B1,C-C1|R]) :- C1 == B1 -> advanceEvenEqual(A,B1,R).
 
 
 % make a dictionary of the atoms inside the list and initialzie to 0
@@ -63,10 +63,10 @@ split([A],[A],[]).
 split([A,B],[A],[B]).
 
 split([A,B|X],[A|R1],[B|R2]) :-
-    split(X,R1,R2).
+    split(X,R1,R2),!.
 
 % the > function that checks condition on the value part of a k-v pair
-isBiggerPaired((_-A2),(_-B2)) :- A2 < B2.
+isBiggerPaired(_-A2,_-B2) :- A2 < B2.
 
 % merge part of a merge sort
 merge([],[],[]).
@@ -93,7 +93,7 @@ mergeSort(INP,Result) :-
     split(INP,Left,Right),
     mergeSort(Left,SortedLeft),
     mergeSort(Right,SortedRight),
-    merge(Left,Right,Result),!.
+    merge(SortedLeft,SortedRight,Result),!.
 
 
 
@@ -115,7 +115,7 @@ generateComplementOfOutcomes([draw(A,B)|X],[win(B,A),win(A,B),draw(B,A)|R]) :-
 
 
 % generate the possible ways a team might advance to next round
-teamAdvances(Team,INP,OutcomesSoFar,FutureOutComes,Scores) :-
+teamAdvances(Team,INP,OutcomesSoFar,FutureOutComes,SortedScores) :-
     generateComplementOfOutcomes(OutcomesSoFar,ComplementOfSoFar),
     playGames(INP,FutureOutComes,ComplementOfSoFar,Scores),
     mergeSortDict(Scores,SortedScores),
