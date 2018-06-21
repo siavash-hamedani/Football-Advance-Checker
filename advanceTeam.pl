@@ -110,7 +110,7 @@ generateComplementOfOutcomes([],[]).
 generateComplementOfOutcomes([win(A,B)|X],[win(B,A),draw(A,B),draw(B,A)|R]) :-
     generateComplementOfOutcomes(X,R).
 
-generateComplementOfOutcomes([draw(A,B)|X],[win(B,A),win(A,B),draw(B,A)|R]) :-
+generateComplementOfOutcomes([draw(A,B)|X],[win(B,A),win(A,B)|R]) :-
     generateComplementOfOutcomes(X,R).
 
 
