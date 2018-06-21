@@ -115,9 +115,15 @@ generateComplementOfOutcomes([draw(A,B)|X],[win(B,A),win(A,B),draw(B,A)|R]) :-
 
 
 % generate the possible ways a team might advance to next round
-teamAdvances(Team,INP,OutcomesSoFar,FutureOutComes,SortedScores) :-
+teamAdvances(Team,INP,OutcomesSoFar,FilteredFutureOutcomes,SortedScores) :-
     generateComplementOfOutcomes(OutcomesSoFar,ComplementOfSoFar),
     playGames(INP,FutureOutComes,ComplementOfSoFar,Scores),
     mergeSortDict(Scores,SortedScores),
-    advances(Team,SortedScores).
+    advances(Team,SortedScores),
+    filterKnown(FutureOutComes,OutcomesSoFar,FilteredFutureOutcomes).
 
+
+% filter known
+filterKnown([],KNN,[]).
+filterKnown([INP|INPS],KNN,[INP|RES]) :- not(member(INP,KNN)),filterKnown(INPS,KNN,RES).
+filterKnown([INP|INPS],KNN,RES) :- member(INP,KNN),filterKnown(INPS,KNN,RES).
